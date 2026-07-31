@@ -1,21 +1,17 @@
 ---
 # yaml-language-server: $schema=https://schema.blue-build.org/recipe-v1.json
 # image will be published to ghcr.io/<user>/<name>
-name: template
-# description will be included in the image's metadata
+name: templatea
 description: This is my personal OS image.
 
-# the base image to build on top of (FROM) and the version tag to use
 base-image: ghcr.io/ublue-os/silverblue-main
-image-version: 44 # latest is also supported if you want new updates ASAP
+image-version: 44
 
-# module configuration, executed in order
-# you can include multiple instances of the same module
 modules:
-  - type: files
-    files:
-      - source: system
-        destination: / # copies files/system/* (* means everything inside it) into your image's root folder /
+  - type: dnf
+    repos:
+     files:
+       - https://repo.librewolf.net/librewolf.repo
 
   - type: dnf
     repos:
@@ -23,22 +19,30 @@ modules:
         - scottames/ghostty
     install:
       packages:
-        - micro
+        - zsh
         - ghostty
     remove:
       packages:
         - firefox
         - firefox-langpacks
         - gnome-software
+        - gnome-tour
+        - gnome-system-monitor
+        - gnome-disk-utility
         - ptyxis
+        - nvtop
+        - gnome-user-docs
+        - malcontent
+        - malcontent-libs
+        - malcontent-ui-libs
+        - malcontent-control
 
   - type: default-flatpaks
     configurations:
-      - notify: true # Send notification after install/uninstall is finished (true/false)
+      - notify: true
         scope: system
-        # If no repo information is specified, Flathub will be used by default
-        install: # system flatpaks we want all users to have and not remove
-          - org.mozilla.firefox
-          - org.gnome.Loupe
+        install:
+          - com.interversehq.qView
+          - com.github.tchx84.Flatseal
 
-  - type: signing # this sets up the proper policy & signing files for signed images to work fully
+  - type: signing
