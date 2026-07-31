@@ -32,10 +32,6 @@ modules:
         - ptyxis
         - nvtop
         - gnome-user-docs
-        - malcontent
-        - malcontent-libs
-        - malcontent-ui-libs
-        - malcontent-control
 
   - type: default-flatpaks
     configurations:
